@@ -4,5 +4,8 @@
 !*.md
 !*.*
 
+!base
+!function
+
 !images
 !.gitgnore
