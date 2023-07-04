@@ -14,6 +14,6 @@ void Move(int n, char src, char dest, char tmp) {
 }
 
 int main(void) {
-    Move(3,"A","B","C");
+    Move(3,'A','B','C');
     return 0;
 }

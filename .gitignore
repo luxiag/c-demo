@@ -1,12 +1,17 @@
-*
+# *
 
-!*.c
-!*.md
-!*.*
+# !*.c
+# !*.md
+# !*.*
 
-!base
-!function
-!book
+# !base
+# !function
+# !book
+# !macros
 
-!images
-!.gitgnore
+# !images
+# !.gitgnore
+
+cmake-build-*
+
+
