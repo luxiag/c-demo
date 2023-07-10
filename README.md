@@ -1,3 +1,14 @@
+
+## 版本差异
+
+C89/C90：这是第一个正式的C语言标准，由美国国家标准协会（ANSI）制定，后被国际标准化组织（ISO）采纳。这个版本的C语言定义了C标准库，引入了函数原型、const、volatile等新关键字，以及宽字符、宽字符串和多字节字符等特性12。
+C95：这是对C89/C90的一个修订和扩充，增加了三个新的标准头文件（iso646.h、wctype.h、wchar.h），以及一些新的格式符和宽字符函数12。
+C99：这是第二个正式的C语言标准，由ISO发布。这个版本的C语言增加了复数、整数类型扩展、变长数组、布尔类型、非英语字符集的支持、浮点类型的支持、C++风格注释等特性123。
+C11：这是第三个正式的C语言标准，由ISO发布。这个版本的C语言引入了字节对齐说明符、泛型机制、对多线程的支持、静态断言、原子操作以及对Unicode的支持等特性123。
+C17/C18：这是对C11的一个修订和补充，并不是一个真正的新标准。这个版本的C语言没有引入新的语言特性，只对C11进行了一些错误修正和澄清123。
+C2x：这是下一个版本的C语言标准，预计将于2022年12月完成。目前还不清楚这个版本会有哪些新的特性12。
+
+
 ## 数据结构
 
 ![](images/419003304062942323.png)
@@ -72,3 +83,95 @@ printf("%-5d\n", 123); // 输出为 "123  "
 ![](images/409004403070422323.png)
 
 ## 字节序
+
+
+## <time.h>
+
+- size_t：无符号整数类型，用于表示对象或数组的大小。
+- clock_t：整数类型，用于表示处理器时间。
+- time_t：整数类型，用于表示日历时间，即从1970年1月1日00:00:00 UTC开始经过的秒数。
+- struct tm：结构体类型，用于表示分解后的日期和时间，包含以下成员：
+```c
+struct tm {
+  int tm_sec;   /* 秒，范围从 0 到 59 */
+  int tm_min;   /* 分，范围从 0 到 59 */
+  int tm_hour;  /* 小时，范围从 0 到 23 */
+  int tm_mday;  /* 一月中的第几天，范围从 1 到 31 */
+  int tm_mon;   /* 月，范围从 0 到 11 */
+  int tm_year;  /* 自 1900 年起的年数 */
+  int tm_wday;  /* 一周中的第几天，范围从 0 到 6 */
+  int tm_yday;  /* 一年中的第几天，范围从 0 到 365 */
+  int tm_isdst; /* 夏令时 */
+};
+```
+
+### asctim
+
+```c
+char *asctime(const struct tm *timeptr);
+/*
+它的作用是将一个struct tm类型的指针转换为一个字符串指针，表示日期和时间
+Www Mmm dd hh:mm:ss yyyy\n\0
+*/
+
+#include <stdio.h>
+#include <time.h>
+int main() {
+  struct tm t;
+  t.tm_sec = 10;   // 秒，范围从 0 到 59
+  t.tm_min = 49;   // 分，范围从 0 到 59
+  t.tm_hour = 10;  // 小时，范围从 0 到 23
+  t.tm_mday = 21;  // 日，范围从 1 到 31
+  t.tm_mon = 10;   // 月，范围从 0 到 11
+  t.tm_year = 116; // 年，从1900年开始计算
+  t.tm_wday = 5;   // 星期，范围从 0 到 6
+  printf("%s", asctime(&t));
+  //Fri Nov 21 10:49:10 2016
+  return 0;
+}
+```
+
+### clock
+
+```c
+clock_t clock(void);
+/*
+它的作用是返回程序执行起（一般为程序的开头），处理器时钟所使用的时间。返回值的类型是clock_t，它是一个整数类型。为了获取CPU所使用的秒数，需要除以CLOCKS_PER_SEC宏。这个宏在不同的平台上可能有不同的值，通常在Windows上是1000，在Linux上是1000000。
+*/
+#include <stdio.h>
+#include <time.h>
+int main() {
+  clock_t start_t, end_t, total_t;
+  int i;
+  
+  start_t = clock(); // 记录开始时间
+  printf("程序启动，start_t = %ld\n", start_t);
+  
+  printf("开始一个大循环...\n");
+  
+  for(i=0; i<10000000; i++) {
+    // do nothing
+  }
+  
+  end_t = clock(); // 记录结束时间
+  printf("大循环结束，end_t = %ld\n", end_t);
+  
+  total_t = end_t - start_t; // 计算差值
+  printf("total_t = %ld\n", total_t);
+  
+  printf("CPU 占用的总时间：%f\n", (double)total_t / CLOCKS_PER_SEC); // 转换为秒数
+  
+  printf("程序退出...\n");
+  
+}
+/*
+程序启动，start_t = -1
+开始一个大循环...
+大循环结束，end_t = -1
+total_t = -2
+CPU 占用的总时间：-0.000002
+程序退出...
+
+*/
+
+```
