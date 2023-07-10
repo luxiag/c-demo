@@ -40,6 +40,7 @@
     "*.wxs": "javascript",
     "*.md": "markdown",
     "stdio.h": "c",
-    "factorial.h": "c"
+    "factorial.h": "c",
+    "stdarg.h": "c"
   }
 }

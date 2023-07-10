@@ -6,7 +6,21 @@
 
 基本数据类型有三种：字符（char）、整数（int）和浮点数（float）。复杂的类型都是基于它们构建的。
 
+### 有无符号
 
+最高位如果是 1，表明这个数是负数，其值为除 最 高 位 以 外 的 剩 余 位 的 值 添 上 这 个 的- ” 号 ; 如 果 最 高 位 是 0 ， 表 明 这 个 数 是 正 数 ， 其 值 为 除 最 高 位 以 外 的 剩 余位 的 值 。
+### 获取数据类型的极限
+
+- SCHAR_MIN，SCHAR_MAX：signed char 的最小值和最大值。
+- SHRT_MIN，SHRT_MAX：short 的最小值和最大值。
+- INT_MIN，INT_MAX：int 的最小值和最大值。
+- LONG_MIN，LONG_MAX：long 的最小值和最大值。
+- LLONG_MIN，LLONG_MAX：long long 的最小值和最大值。
+- UCHAR_MAX：unsigned char 的最大值。
+- USHRT_MAX：unsigned short 的最大值。
+- UINT_MAX：unsigned int 的最大值。
+- ULONG_MAX：unsigned long 的最大值。
+- ULLONG_MAX：unsigned long long 的最大值
 
 ## 占位符
 
