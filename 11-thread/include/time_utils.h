@@ -1,16 +1,23 @@
 
-#pragma once
 
 #include "io_utils.h"
+#include "tinycthread.h"
+#if defined(_WIN32)
+#include <sys/timeb.h>
+#endif
+
+#if defined(__UNIX__) || defined(__APPLE__)
+//#include <sys/resource.h>
 #include <sys/time.h>
 #include <sys/timeb.h>
-#include <time.h>
+#endif
 
 typedef long long long_time_t;
 
 long_time_t TimeInMillisecond(void) {
-#if defined(_WIN32)
   struct timeb time_buffer;
+
+#if defined(_WIN32)
   ftime(&time_buffer);
   return time_buffer.time * 1000LL + time_buffer.millitm;
 #elif defined(__UNIX__) || defined(__APPLE__)
@@ -27,13 +34,20 @@ long_time_t TimeInMillisecond(void) {
 #endif
 }
 
-
-void TimeCost(char const* msg) {
+void TimeCost(char const *msg) {
   static time_t start_time = 0;
-  if(msg && start_time !=0) {
+  if (msg && start_time != 0) {
     time_t current_time = TimeInMillisecond();
-    PRINTLNF("%s consts: %lld",msg, current_time -start_time);
+    PRINTLNF("%s consts: %lld", msg, current_time - start_time);
   }
   start_time = TimeInMillisecond();
 }
 
+
+
+
+void SleepMs(long milliseconds) {
+  long seconds = milliseconds / 1000;
+  long nanoseconds = (milliseconds % 1000) * 1000000L;
+  thrd_sleep(&(struct timespec){.tv_sec = seconds, .tv_nsec = nanoseconds}, NULL);
+}
